@@ -252,6 +252,7 @@ void ReplicatedMergeTreeBlockOutputStream::commitPart(zkutil::ZooKeeperPtr & zoo
 
     part->info.min_block = block_number;
     part->info.max_block = block_number;
+    part->info.version = block_number;
     part->info.level = 0;
 
     String part_name;
