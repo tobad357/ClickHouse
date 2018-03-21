@@ -25,7 +25,12 @@ private:
     ColumnTuple(MutableColumns && columns);
     ColumnTuple(const ColumnTuple &) = default;
 
-    static Ptr createImmutable(const Columns & columns);
+    /** Create immutable column using immutable arguments. This arguments may be shared with other columns.
+      * Use IColumn::mutate in order to make mutable column and mutate shared nested columns.
+      */
+    using COWPtrHelper<IColumn, ColumnTuple>::create;
+
+    static Ptr create(const Columns & columns);
 
 public:
     std::string getName() const override;

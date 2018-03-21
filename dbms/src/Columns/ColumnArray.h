@@ -27,16 +27,19 @@ private:
     ColumnArray(MutableColumnPtr && nested_column, MutableColumnPtr && offsets_column);
 
     /** Create an empty column of arrays with the type of values as in the column `nested_column` */
-    ColumnArray(MutableColumnPtr && nested_column);
+    explicit ColumnArray(MutableColumnPtr && nested_column);
 
-    using Ptr = COWPtrHelper<IColumn, ColumnArray>::Ptr;
+    /** Create immutable column using immutable arguments. This arguments may be shared with other columns.
+      * Use IColumn::mutate in order to make mutable column and mutate shared nested columns.
+      */
+    using COWPtrHelper<IColumn, ColumnArray>::create;
 
-    static Ptr createImmutable(const ColumnPtr & nested_column, const ColumnPtr & offsets_column)
+    static Ptr create(const ColumnPtr & nested_column, const ColumnPtr & offsets_column)
     {
         return ColumnArray::create(nested_column->assumeMutable(), offsets_column->assumeMutable());
     }
 
-    static Ptr createImmutable(const ColumnPtr & nested_column)
+    static Ptr create(const ColumnPtr & nested_column)
     {
         return ColumnArray::create(nested_column->assumeMutable());
     }
