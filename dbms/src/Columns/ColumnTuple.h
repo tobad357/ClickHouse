@@ -32,6 +32,9 @@ public:
     using COWPtrHelper<IColumn, ColumnTuple>::create;
     static Ptr create(const Columns & columns);
 
+    template <typename... Args>
+    static MutablePtr create(Args &&... args) { return create(std::forward<Args>(args)...); }
+
     std::string getName() const override;
     const char * getFamilyName() const override { return "Tuple"; }
 
