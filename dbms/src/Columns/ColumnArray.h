@@ -47,6 +47,9 @@ public:
         return ColumnArray::create(nested_column->assumeMutable());
     }
 
+    template <typename... Args>
+    static MutablePtr create(Args &&... args) { return create(std::forward<Args>(args)...); }
+
     /** On the index i there is an offset to the beginning of the i + 1 -th element. */
     using ColumnOffsets = ColumnVector<Offset>;
 
