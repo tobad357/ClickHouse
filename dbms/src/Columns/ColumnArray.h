@@ -29,6 +29,9 @@ private:
     /** Create an empty column of arrays with the type of values as in the column `nested_column` */
     explicit ColumnArray(MutableColumnPtr && nested_column);
 
+    ColumnArray(const ColumnArray &) = default;
+
+public:
     /** Create immutable column using immutable arguments. This arguments may be shared with other columns.
       * Use IColumn::mutate in order to make mutable column and mutate shared nested columns.
       */
@@ -44,9 +47,6 @@ private:
         return ColumnArray::create(nested_column->assumeMutable());
     }
 
-    ColumnArray(const ColumnArray &) = default;
-
-public:
     /** On the index i there is an offset to the beginning of the i + 1 -th element. */
     using ColumnOffsets = ColumnVector<Offset>;
 

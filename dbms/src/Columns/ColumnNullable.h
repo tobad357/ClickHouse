@@ -26,17 +26,16 @@ private:
     ColumnNullable(MutableColumnPtr && nested_column_, MutableColumnPtr && null_map_);
     ColumnNullable(const ColumnNullable &) = default;
 
+public:
     /** Create immutable column using immutable arguments. This arguments may be shared with other columns.
       * Use IColumn::mutate in order to make mutable column and mutate shared nested columns.
       */
     using COWPtrHelper<IColumn, ColumnNullable>::create;
-
     static Ptr create(const ColumnPtr & nested_column_, const ColumnPtr & null_map_)
     {
         return ColumnNullable::create(nested_column_->assumeMutable(), null_map_->assumeMutable());
     }
 
-public:
     const char * getFamilyName() const override { return "Nullable"; }
     std::string getName() const override { return "Nullable(" + nested_column->getName() + ")"; }
     MutableColumnPtr cloneResized(size_t size) const override;
