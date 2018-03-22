@@ -29,11 +29,11 @@ public:
     /** Create immutable column using immutable arguments. This arguments may be shared with other columns.
       * Use IColumn::mutate in order to make mutable column and mutate shared nested columns.
       */
-    using COWPtrHelper<IColumn, ColumnTuple>::create;
+    using Base = COWPtrHelper<IColumn, ColumnTuple>;
     static Ptr create(const Columns & columns);
 
     template <typename... Args>
-    static MutablePtr create(Args &&... args) { return create(std::forward<Args>(args)...); }
+    static MutablePtr create(Args &&... args) { return Base::create(std::forward<Args>(args)...); }
 
     std::string getName() const override;
     const char * getFamilyName() const override { return "Tuple"; }

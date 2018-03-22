@@ -35,7 +35,7 @@ public:
     /** Create immutable column using immutable arguments. This arguments may be shared with other columns.
       * Use IColumn::mutate in order to make mutable column and mutate shared nested columns.
       */
-    using COWPtrHelper<IColumn, ColumnArray>::create;
+    using Base = COWPtrHelper<IColumn, ColumnArray>;
 
     static Ptr create(const ColumnPtr & nested_column, const ColumnPtr & offsets_column)
     {
@@ -48,7 +48,7 @@ public:
     }
 
     template <typename... Args>
-    static MutablePtr create(Args &&... args) { return create(std::forward<Args>(args)...); }
+    static MutablePtr create(Args &&... args) { return Base::create(std::forward<Args>(args)...); }
 
     /** On the index i there is an offset to the beginning of the i + 1 -th element. */
     using ColumnOffsets = ColumnVector<Offset>;
