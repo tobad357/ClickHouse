@@ -32,7 +32,7 @@ public:
     using Base = COWPtrHelper<IColumn, ColumnTuple>;
     static Ptr create(const Columns & columns);
 
-    template <typename... Args>
+    template <typename ... Args, typename = std::tuple<typename std::enable_if<std::is_rvalue_reference<Args &&>::value>::type ...>>
     static MutablePtr create(Args &&... args) { return Base::create(std::forward<Args>(args)...); }
 
     std::string getName() const override;

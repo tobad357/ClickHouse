@@ -47,7 +47,7 @@ public:
         return ColumnArray::create(nested_column->assumeMutable());
     }
 
-    template <typename... Args>
+    template <typename ... Args, typename = std::tuple<typename std::enable_if<std::is_rvalue_reference<Args &&>::value>::type ...>>
     static MutablePtr create(Args &&... args) { return Base::create(std::forward<Args>(args)...); }
 
     /** On the index i there is an offset to the beginning of the i + 1 -th element. */
